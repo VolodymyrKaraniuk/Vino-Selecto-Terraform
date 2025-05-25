@@ -11,7 +11,7 @@ sudo apt-get update -yq
 sudo apt-get install python3-pip -yq
 
 # Create a directory for the app and download the files.
-sudo mkdir /app
+sudo mkdir /backend
 # make sure to uncomment the line bellow and update the link with your GitHub username
 git clone https://github.com/VolodymyrKaraniuk/Vino-Selecto-Terraform.git
 sudo cp -r Vino-Selecto-Terraform/src/backend/* /backend
