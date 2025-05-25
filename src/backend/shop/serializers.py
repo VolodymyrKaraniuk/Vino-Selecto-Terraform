@@ -1,52 +1,21 @@
 from rest_framework import serializers
+from .models import (
+    Product,
+    Wine,
+    Glass,
+    Corkscrew,
+    Mood,
+    Country,
+    Producer,
+    Order,
+    OrderItem,
+)
 
-from shop.models import Goods, Wine, Mood, Occasion
 
-
-class GoodsSerializer(serializers.ModelSerializer):
+class CountrySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Goods
-        fields = ("id", "wine")
-
-
-class WineSerializer(serializers.ModelSerializer):
-    moods = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Mood.objects.all()
-    )
-    occasions = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Occasion.objects.all()
-    )
-
-    class Meta:
-        model = Wine
-        fields = (
-            "id", "name", "wine_type", "color", "country", "producer",
-            "occasions", "moods", "price", "description", "price_range"
-        )
-
-    def create(self, validated_data):
-        moods = validated_data.pop('moods', [])
-        occasions = validated_data.pop('occasions', [])
-        wine = Wine.objects.create(**validated_data)
-        wine.moods.set(moods)
-        wine.occasions.set(occasions)
-        return wine
-
-    def update(self, instance, validated_data):
-        moods = validated_data.pop('moods', None)
-        occasions = validated_data.pop('occasions', None)
-
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-
-        if moods is not None:
-            instance.moods.set(moods)
-        if occasions is not None:
-            instance.occasions.set(occasions)
-
-        return instance
-
+        model = Country
+        fields = ("id", "name")
 
 
 class MoodSerializer(serializers.ModelSerializer):
@@ -55,7 +24,66 @@ class MoodSerializer(serializers.ModelSerializer):
         fields = ("id", "name")
 
 
-class OccasionSerializer(serializers.ModelSerializer):
+class ProducerSerializer(serializers.ModelSerializer):
+    name_of_country = CountrySerializer()
+
     class Meta:
-        model = Occasion
-        fields = ("id", "name")
+        model = Producer
+        fields = ("id", "name_of_country", "name_of_region")
+
+
+class WineSerializer(serializers.ModelSerializer):
+    country = CountrySerializer()
+    producer = ProducerSerializer()
+    moods = MoodSerializer(many=True)
+
+    class Meta:
+        model = Wine
+        fields = ("id", "product", "wine_type", "color",
+                  "country", "producer", "vintage_year",
+                  "alcohol", "moods")
+
+
+class GlassSerializer(serializers.ModelSerializer):
+    country = CountrySerializer()
+
+    class Meta:
+        model = Glass
+        fields = ("id", "product", "capacity", "country", "height", "diameter", "material")
+
+
+class CorkscrewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Corkscrew
+        fields = ("id", "product", "dimensions", "material")
+
+
+class ProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("id", "name_of_product", "price", "price_range")
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = ("id", "name_of_product", "description", "price",
+                  "stock_quantity", "price_range", "product_type", "image")
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductListSerializer()
+
+    class Meta:
+        model = OrderItem
+        fields = ("id", "product", "quantity")
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+    total_price = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ("id", "user", "created_at", "items", "total_price")

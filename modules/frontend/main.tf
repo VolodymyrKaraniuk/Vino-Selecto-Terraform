@@ -35,7 +35,7 @@ resource "azurerm_virtual_machine" "vm2" {
 }
 
 resource "azurerm_virtual_machine_extension" "vmex" {
-  name                 = "run_python_project"
+  name                 = "run_front_project"
   virtual_machine_id   = azurerm_virtual_machine.vm2.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
@@ -44,8 +44,8 @@ resource "azurerm_virtual_machine_extension" "vmex" {
   
   settings = <<SETTINGS
  {
-  "fileUris": ["https://raw.githubusercontent.com/VolodymyrKaraniuk/Vino-Selecto-Terraform/main/install-app-backend.sh"],
-  "commandToExecute": "./install-app-backend.sh"
+  "fileUris": ["https://raw.githubusercontent.com/VolodymyrKaraniuk/Vino-Selecto-Terraform/main/install-app-frontend.sh"],
+  "commandToExecute": "./install-app-frontend.sh"
  }
 SETTINGS
 }

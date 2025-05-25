@@ -41,7 +41,7 @@ resource "azurerm_virtual_machine_extension" "vmex" {
   type                 = "CustomScript"
   type_handler_version = "2.0"
 
-  
+
   settings = <<SETTINGS
  {
   "fileUris": ["https://raw.githubusercontent.com/VolodymyrKaraniuk/Vino-Selecto-Terraform/main/install-app-backend.sh"],

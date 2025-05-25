@@ -1,40 +1,77 @@
-from django.shortcuts import render
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
-from shop.models import Goods, Wine, Mood, Occasion
-from shop.serializers import (GoodsSerializer, WineSerializer,
-                              MoodSerializer, OccasionSerializer)
+from shop.models import (
+    Product, Wine, Mood, Country, Producer, Glass,
+    Corkscrew, Order, OrderItem,
+)
+from shop.serializers import (
+    ProductListSerializer, ProductDetailSerializer,
+    WineSerializer, MoodSerializer, CountrySerializer,
+    ProducerSerializer, GlassSerializer, CorkscrewSerializer,
+    OrderSerializer,
+)
 
 
-class GoodsViewSet(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   viewsets.GenericViewSet):
-    queryset = Goods.objects.all()
-    serializer_class =GoodsSerializer
+class DefaultPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"
+    max_page_size = 100
 
 
-class WineViewSet(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   viewsets.GenericViewSet):
+class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Product.objects.all()
+    pagination_class = DefaultPagination
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return ProductDetailSerializer
+        return ProductListSerializer
+
+
+
+class WineViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Wine.objects.all()
     serializer_class = WineSerializer
+    pagination_class = DefaultPagination
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name']
+    ordering_fields = ['vintage_year', 'alcohol']
 
 
-class MoodleViewSet(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   viewsets.GenericViewSet):
+class MoodViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Mood.objects.all()
     serializer_class = MoodSerializer
 
 
-class OccasionViewSet(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   viewsets.GenericViewSet):
-    queryset = Occasion.objects.all()
-    serializer_class = OccasionSerializer
+
+class CountryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
 
 
-class OrderPagination(PageNumberPagination):
-    page_size = 10
-    max_page_size = 100
+class ProducerViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Producer.objects.all()
+    serializer_class = ProducerSerializer
+
+
+class GlassViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Glass.objects.all()
+    serializer_class = GlassSerializer
+
+
+class CorkscrewViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Corkscrew.objects.all()
+    serializer_class = CorkscrewSerializer
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
