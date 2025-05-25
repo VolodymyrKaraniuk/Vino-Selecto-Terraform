@@ -2,8 +2,8 @@
 Description=backend service
 
 [Service]
-WorkingDirectory=/app
-ExecStart=/app/start.sh
+WorkingDirectory=/backend
+ExecStart=/backend/start.sh
 StandardOutput=syslog
 StandardError=syslog
 
