@@ -18,7 +18,7 @@ sudo cp -r Vino-Selecto-Terraform/src/backend/* /app
 
 # create a service for the app via systemctl and start the app
 sudo chmod 777 /app/*
-sudo mv /app/todoapp.service /etc/systemd/system/
+sudo mv /app/backend.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl start backend
 sudo systemctl enable backend
