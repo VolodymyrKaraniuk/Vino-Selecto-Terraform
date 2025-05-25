@@ -14,7 +14,7 @@ sudo apt-get install python3-pip -yq
 sudo mkdir /app
 # make sure to uncomment the line bellow and update the link with your GitHub username
 git clone https://github.com/VolodymyrKaraniuk/Vino-Selecto-Terraform.git
-sudo cp -r Vino-Selecto-Terraform/src/backend/* /app
+sudo cp -r Vino-Selecto-Terraform/src/backend/* /app/
 
 # create a service for the app via systemctl and start the app
 sudo chmod 777 /app/*
