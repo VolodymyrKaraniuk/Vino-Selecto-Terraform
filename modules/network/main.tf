@@ -48,18 +48,18 @@ resource "azurerm_public_ip" "pip" {
 #   network_security_group_id = azurerm_network_security_group.nsg.id
 # }
 
-resource "azurerm_network_interface" "vm1" {
-  name                = "example-nic-vm1"
-  location            = var.location
-  resource_group_name = var.resource_group_name
+# resource "azurerm_network_interface" "vm1" {
+#   name                = "example-nic-vm1"
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
 
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = azurerm_subnet.sn.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.pip.id
-  }
-}
+#   ip_configuration {
+#     name                          = "internal"
+#     subnet_id                     = azurerm_subnet.sn.id
+#     private_ip_address_allocation = "Dynamic"
+#     public_ip_address_id          = azurerm_public_ip.pip.id
+#   }
+# }
 
 resource "azurerm_network_interface" "vm2" {
   name                = "example-nic-vm2"
@@ -70,18 +70,6 @@ resource "azurerm_network_interface" "vm2" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.sn.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.pip.id
   }
 }
-
-# # Associate NICs with backend pool
-# resource "azurerm_network_interface_backend_address_pool_association" "vm1" {
-#   network_interface_id    = azurerm_network_interface.vm1.id
-#   ip_configuration_name   = "internal"
-#   backend_address_pool_id = azurerm_lb_backend_address_pool.example.id
-# }
-
-# resource "azurerm_network_interface_backend_address_pool_association" "vm2" {
-#   network_interface_id    = azurerm_network_interface.vm2.id
-#   ip_configuration_name   = "internal"
-#   backend_address_pool_id = azurerm_lb_backend_address_pool.example.id
-# }
