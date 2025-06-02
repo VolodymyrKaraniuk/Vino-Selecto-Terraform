@@ -8,9 +8,10 @@
 # used to suppress any interactive prompts - we won't be able to confirm operation
 # when running the script as VM extention.
 sudo apt-get update -yq
+sudo apt-get install curl -yq
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-sudo apt-get install npm -yq
-sudo apt-get install nodejs -yq
 
 # Create a directory for the app and download the files.
 sudo mkdir /frontend
