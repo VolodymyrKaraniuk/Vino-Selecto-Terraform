@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd /frontend 
+cd /frontend
 rm -rf node_modules package-lock.json
 npm install
-npm run dev
+sudo npm run dev -- --port 80
