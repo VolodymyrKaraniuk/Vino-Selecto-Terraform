@@ -14,7 +14,7 @@ sudo npm install -g npm -yq
 sudo mkdir /frontend
 # make sure to uncomment the line bellow and update the link with your GitHub username
 git clone https://github.com/VolodymyrKaraniuk/Vino-Selecto-Terraform.git
-sudo cp -r Vino-Selecto-Terraform/src/fontend/* /frontend
+sudo cp -r Vino-Selecto-Terraform/src/frontend/* /frontend
 
 # create a service for the app via systemctl and start the app
 sudo chmod 777 /frontend/*
