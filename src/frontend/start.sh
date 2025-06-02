@@ -3,4 +3,4 @@
 cd /frontend
 rm -rf node_modules package-lock.json
 npm install
-sudo npm run dev -- --port 80
+sudo npm run dev -- --port 443
