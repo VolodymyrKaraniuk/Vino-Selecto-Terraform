@@ -9,8 +9,8 @@
 # when running the script as VM extention.
 sudo apt-get update -yq
 
-sudo npm install -g npm -yq
-sudo apt install npm nodejs -yq
+sudo apt-get install npm -yq
+sudo apt-get install nodejs -yq
 
 # Create a directory for the app and download the files.
 sudo mkdir /frontend
