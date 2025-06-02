@@ -1,0 +1,11 @@
+[Unit]
+Description=frontend service
+
+[Service]
+WorkingDirectory=/frontend
+ExecStart=/frontend/start.sh
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
