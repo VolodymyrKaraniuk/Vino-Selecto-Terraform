@@ -1,7 +1,7 @@
 
 
 resource "azurerm_virtual_machine" "vm2" {
-  name                  = var.vm_name
+  name                  = "frontend"
   resource_group_name   = var.resource_group_name
   location              = var.location
   vm_size               = var.vm_size
