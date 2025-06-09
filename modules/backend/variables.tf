@@ -20,18 +20,18 @@ variable "vm_ssh_key" {
 variable "nic-backend-id" {
 }
 
-variable "nic-backend-ip" {
-}
+# variable "nic-backend-ip" {
+# }
 
-variable "sn-backend" {
-}
+# variable "sn-backend" {
+# }
 
-variable "nsg-backend" {
-}
+# variable "nsg-backend" {
+# }
 
 
-variable "sn-agw-backend" {
-}
+# variable "sn-agw-backend" {
+# }
 
-variable "pip-backend" {
-}
+# variable "pip-backend" {
+# }

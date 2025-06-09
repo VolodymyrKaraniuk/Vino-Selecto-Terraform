@@ -31,11 +31,6 @@ module "backend" {
   vm_size             = var.vm_size
   vm_ssh_key          = var.vm_ssh_key
   nic-backend-id      = module.network-module.nic-backend-id
-  nic-backend-ip      = module.network-module.nic-backend-ip
-  sn-backend          = module.network-module.sn-backend
-  nsg-backend         = module.network-module.nsg-backend
-  sn-agw-backend      = module.network-module.sn-agw-backend
-  pip-backend         = module.network-module.pip-backend
 }
 
 module "frontend" {
