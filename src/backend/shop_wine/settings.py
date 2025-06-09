@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,15 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
     'drf_spectacular',
+    'corsheaders',
     'rest_framework',
     'shop',
     'user',
+
 ]
 
 AUTH_USER_MODEL = 'user.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,6 +143,9 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 3,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
 
 SPECTACULAR_SETTINGS = {
@@ -144,3 +154,17 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://back-vonoselecto-bedagphgf7cgeqf3.uksouth-01.azurewebsites.net',
+    # Add other domains if needed
+]
+
+# Recommended additional security settings
+CSRF_COOKIE_SECURE = True    # Ensures cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Same for session cookie
+CSRF_COOKIE_SAMESITE = 'Lax'
+CORS_ALLOWED_ORIGINS = [
+    "https://back-vonoselecto-bedagphgf7cgeqf3.uksouth-01.azurewebsites.net",
+]
+CORS_ALLOW_CREDENTIALS = True
