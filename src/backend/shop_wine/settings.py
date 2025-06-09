@@ -156,7 +156,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://back-vonoselecto-bedagphgf7cgeqf3.uksouth-01.azurewebsites.net',
+    'vinoselectoapi.uksouth.cloudapp.azure.com',
     # Add other domains if needed
 ]
 
@@ -165,6 +165,6 @@ CSRF_COOKIE_SECURE = True    # Ensures cookie is only sent over HTTPS
 SESSION_COOKIE_SECURE = True  # Same for session cookie
 CSRF_COOKIE_SAMESITE = 'Lax'
 CORS_ALLOWED_ORIGINS = [
-    "https://back-vonoselecto-bedagphgf7cgeqf3.uksouth-01.azurewebsites.net",
+    "vinoselectoapi.uksouth.cloudapp.azure.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
