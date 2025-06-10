@@ -1,151 +1,184 @@
 
 #Network for Backend
-# resource "azurerm_virtual_network" "vn1" {
-#   name                = "${var.virtual-network-name}-1"
-#   resource_group_name = var.resource_group_name
-#   address_space       = [var.vnet_address_prefix]
-#   location            = var.location
-# }
-
-# resource "azurerm_subnet" "sn1" {
-#   name                 = "${var.subnet-name}-1"
-#   resource_group_name  = var.resource_group_name
-#   virtual_network_name = azurerm_virtual_network.vn1.name
-#   address_prefixes     = [var.subnet_address_prefix]
-# }
-
-# resource "azurerm_subnet" "agw1" {
-#   name                 = "${var.agw-subnet-name}-1"
-#   resource_group_name  = var.resource_group_name
-#   virtual_network_name = azurerm_virtual_network.vn1.name
-#   address_prefixes     = [var.subnet_agw_address_prefix]
-# }
-
-# resource "azurerm_network_security_group" "nsg1" {
-#   name                = "vm-nsg1"
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
-# }
-
-# # Create Public IP for Application Gateway
-# resource "azurerm_public_ip" "agw1" {
-#   name                = "${var.pip-name}-1"
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
-#   allocation_method   = "Static"
-#   sku                 = "Standard"
-#   domain_name_label   = "vinoselectoapi"
-# }
-
-# # Network Interface for VM
-# resource "azurerm_network_interface" "nic1" {
-#   name                = "vm-nic1"
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
-
-#   ip_configuration {
-#     name                          = "internal"
-#     subnet_id                     = azurerm_subnet.sn1.id
-#     private_ip_address_allocation = "Dynamic"
-#   }
-# }
-
-# # Application Gateway
-# resource "azurerm_application_gateway" "ag1" {
-#   name                = "backend-agw"
-#   resource_group_name = var.resource_group_name
-#   location            = var.location
-
-#   sku {
-#     name     = "Standard_v2"
-#     tier     = "Standard_v2"
-#     capacity = 1
-#   }
-
-#   gateway_ip_configuration {
-#     name      = "agw-ip-config"
-#     subnet_id = azurerm_subnet.agw1.id
-#   }
-
-#   frontend_port {
-#     name = "http-port"
-#     port = 80
-#   }
-
-#   frontend_ip_configuration {
-#     name                 = "agw-frontend-ip"
-#     public_ip_address_id = azurerm_public_ip.agw1.id
-#   }
-
-#   backend_address_pool {
-#     name         = "backend-pool"
-#     ip_addresses = [azurerm_network_interface.nic1.private_ip_address]
-#   }
-
-#   backend_http_settings {
-#     name                  = "api-http-setting"
-#     cookie_based_affinity = "Disabled"
-#     port                  = 3000  # Backend API port
-#     protocol              = "Http"
-#     request_timeout       = 60
-#   }
-
-#   http_listener {
-#     name                           = "api-listener"
-#     frontend_ip_configuration_name = "agw-frontend-ip"
-#     frontend_port_name             = "http-port"
-#     protocol                       = "Http"
-#   }
-
-#   request_routing_rule {
-#     name                       = "api-rule"
-#     rule_type                  = "Basic"
-#     http_listener_name         = "api-listener"
-#     backend_address_pool_name  = "backend-pool"
-#     backend_http_settings_name = "api-http-setting"
-#     priority                   = 100
-#   }
-# }
-
-resource "azurerm_virtual_network" "vn" {
-  name                = var.virtual-network-name
+resource "azurerm_virtual_network" "vn1" {
+  name                = "${var.virtual-network-name}-1"
+  resource_group_name = var.resource_group_name
   address_space       = [var.vnet_address_prefix]
   location            = var.location
-  resource_group_name = var.resource_group_name
 }
 
-resource "azurerm_subnet" "sn" {
-  name                 = var.subnet-name
+resource "azurerm_subnet" "sn1" {
+  name                 = "${var.subnet-name}-1"
   resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.vn.name
+  virtual_network_name = azurerm_virtual_network.vn1.name
   address_prefixes     = [var.subnet_address_prefix]
 }
 
-resource "azurerm_public_ip" "pip" {
-  name                = var.pip-name
+resource "azurerm_subnet" "agw1" {
+  name                 = "${var.agw-subnet-name}-1"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.vn1.name
+  address_prefixes     = [var.subnet_agw_address_prefix]
+}
+
+resource "azurerm_network_security_group" "nsg1" {
+  name                = "vm-nsg1"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  security_rule {
+    name                       = "AllowSSH"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  # Allow HTTP traffic from Application Gateway subnet
+  security_rule {
+    name                       = "AllowHTTPFromAGW"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8080"
+    source_address_prefix      = var.subnet_agw_address_prefix
+    destination_address_prefix = "*"
+  }
+
+}
+
+# Create Public IP for Application Gateway
+resource "azurerm_public_ip" "agw1" {
+  name                = "${var.pip-name}-1"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
+  sku                 = "Standard"
   domain_name_label   = "vinoselectoapi"
 }
-resource "azurerm_network_security_group" "nsg" {
-  name                = var.network-security-group-name
+resource "azurerm_subnet_network_security_group_association" "sn1_nsg" {
+  subnet_id                 = azurerm_subnet.sn1.id
+  network_security_group_id = azurerm_network_security_group.nsg1.id
+}
+# Network Interface for VM
+resource "azurerm_network_interface" "nic1" {
+  name                = "vm-nic1"
   location            = var.location
   resource_group_name = var.resource_group_name
-}
-
-resource "azurerm_network_interface" "nic" {
-  name                            = "nic-1"
-  location                        = var.location
-  resource_group_name             = var.resource_group_name
 
   ip_configuration {
-    name                          = "ip-config"
-    subnet_id                     = azurerm_subnet.sn.id
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.sn1.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.pip.id
   }
 }
+
+# Application Gateway
+resource "azurerm_application_gateway" "ag1" {
+  name                = "backend-agw"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+
+  sku {
+    name     = "Standard_v2"
+    tier     = "Standard_v2"
+    capacity = 1
+  }
+
+  gateway_ip_configuration {
+    name      = "agw-ip-config"
+    subnet_id = azurerm_subnet.agw1.id
+  }
+
+  frontend_port {
+    name = "http-port"
+    port = 80
+  }
+
+  frontend_ip_configuration {
+    name                 = "agw-frontend-ip"
+    public_ip_address_id = azurerm_public_ip.agw1.id
+  }
+
+  backend_address_pool {
+    name         = "backend-pool"
+    ip_addresses = [azurerm_network_interface.nic1.private_ip_address]
+  }
+
+  backend_http_settings {
+    name                  = "api-http-setting"
+    cookie_based_affinity = "Disabled"
+    port                  = 8080
+    protocol              = "Http"
+    request_timeout       = 60
+    pick_host_name_from_backend_address = true  # THIS FIXES THE ERROR
+    
+    # Optional: Uncomment if you need to override the host header
+    # host_name = "my-specific-host.com"
+  }
+
+  http_listener {
+    name                           = "api-listener"
+    frontend_ip_configuration_name = "agw-frontend-ip"
+    frontend_port_name             = "http-port"
+    protocol                       = "Http"
+  }
+
+  request_routing_rule {
+    name                       = "api-rule"
+    rule_type                  = "Basic"
+    http_listener_name         = "api-listener"
+    backend_address_pool_name  = "backend-pool"
+    backend_http_settings_name = "api-http-setting"
+    priority                   = 100
+  }
+}
+
+# resource "azurerm_virtual_network" "vn" {
+#   name                = var.virtual-network-name
+#   address_space       = [var.vnet_address_prefix]
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
+# }
+
+# resource "azurerm_subnet" "sn" {
+#   name                 = var.subnet-name
+#   resource_group_name  = var.resource_group_name
+#   virtual_network_name = azurerm_virtual_network.vn.name
+#   address_prefixes     = [var.subnet_address_prefix]
+# }
+
+# resource "azurerm_public_ip" "pip" {
+#   name                = var.pip-name
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
+#   allocation_method   = "Static"
+#   domain_name_label   = "vinoselectoapi"
+# }
+# resource "azurerm_network_security_group" "nsg" {
+#   name                = var.network-security-group-name
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
+# }
+
+# resource "azurerm_network_interface" "nic" {
+#   name                            = "nic-1"
+#   location                        = var.location
+#   resource_group_name             = var.resource_group_name
+
+#   ip_configuration {
+#     name                          = "ip-config"
+#     subnet_id                     = azurerm_subnet.sn.id
+#     private_ip_address_allocation = "Dynamic"
+#     public_ip_address_id          = azurerm_public_ip.pip.id
+#   }
+# }
 #Network for Frontend
 resource "azurerm_virtual_network" "vn2" {
   name                = "${var.virtual-network-name}-2"

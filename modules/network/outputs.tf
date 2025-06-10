@@ -1,7 +1,7 @@
 # Backend
 
 output "nic-backend-id" {
-  value = azurerm_network_interface.nic.id
+  value = azurerm_network_interface.nic1.id
 }
 
 # output "nic-backend-ip" {
