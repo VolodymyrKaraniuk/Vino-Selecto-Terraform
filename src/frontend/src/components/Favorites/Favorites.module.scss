@@ -1,0 +1,98 @@
+@use '/src/assets/styles/variables' as *;
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $main-font;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 130%;
+}
+
+.favorites {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  font-family: $main-font;
+  box-sizing: border-box;
+
+  &__img {
+    width: 99px;
+    height: 149px;
+  }
+
+  &__name {
+    color: $secondary-color;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  &__add {
+    width: 185px;
+    height: 56px;
+    background-color: $active-color;
+    color: $light-text;
+
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 150%;
+    margin-top: 16px;
+
+    border: none;
+    border-radius: 19px;
+
+    &:hover {
+      background-color: $hover-button-color;
+    }
+  }
+}
+
+.buttons {
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: solid 1px black;
+
+  width: 98px;
+  height: 40px;
+  padding: 8px 16px;
+
+  &__button {
+    border: none;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    line-height: 20px;
+
+    background-color: $light-background;
+  }
+
+  &__quantity {
+    width: 10px;
+    height: 20px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}
+
+.right {
+  &__delete {
+    background-color: white;
+    border: none;
+  }
+
+  &__button {
+    font-family: $main-font;
+    color: $secondary-color;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+  }
+}

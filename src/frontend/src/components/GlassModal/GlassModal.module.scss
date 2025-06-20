@@ -1,0 +1,125 @@
+@use '/src/assets/styles/variables' as *;
+
+.modal {
+  font-family: $main-font;
+  height: 695px;
+  width: 217px;
+  background-color: $light-background;
+  border-radius: 19px;
+  padding: 16px;
+  box-sizing: border-box;
+
+  &__image {
+    width: 182px;
+    height: 273px;
+    margin-block: 25px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 150%;
+    margin-top: 16px;
+    padding: top;
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: $secondary-color;
+    margin-top: 8px;
+    padding: 0;
+  }
+
+  &__capacity {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    margin-top: 16px;
+    padding: 0;
+
+    &--title {
+      color: black;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 150%;
+      letter-spacing: 0px;
+      padding-right: 10px;
+    }
+
+    &--ml {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: $secondary-color;
+      margin: 0;
+    }
+  }
+
+  &__product-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding: 0;
+  }
+
+  &__add-to-cart {
+    width: 185px;
+    height: 56px;
+    background-color: $active-color;
+    color: $light-text;
+
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 150%;
+    margin-top: 16px;
+
+    border: none;
+    border-radius: 19px;
+
+    &:hover {
+      background-color: $hover-button-color;
+    }
+  }
+
+  &__price {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 150%;
+    margin-top: 16px;
+    padding: 0;
+  }
+}
+
+.buttons {
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: solid 1px black;
+
+  width: 98px;
+  height: 40px;
+  padding: 8px 16px;
+
+  &__button {
+    border: none;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    line-height: 20px;
+
+    background-color: $light-background;
+  }
+
+  &__quantity {
+    width: 10px;
+    height: 20px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+}

@@ -1,0 +1,70 @@
+@use '/src/assets/styles/variables' as *;
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(84, 79, 79, 0.8);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay {
+  background-color: $ligth-2-background;
+  border-radius: 19px;
+  font-family: $main-font;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 378px;
+  max-width: 967px;
+  padding: 24px;
+
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 130%;
+    letter-spacing: 0px;
+    text-align: center;
+    padding-bottom: 144px;
+    margin-bottom: 0;
+  }
+
+  &__icon {
+    display: flex;
+   margin-inline: auto;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 11px;
+    width: 919px;
+    height: 56px;
+  }
+
+  &__button {
+    &--yes {
+      width: 454px;
+      height: 56px;
+      border: none;
+      border-radius: 19px;
+      background-color: $active-color;
+    }
+    &--yes:hover {
+      background-color: $hover-button-color;
+    }
+    &--not {
+      background-color: $white-color;
+      width: 454px;
+      height: 56px;
+      border: solid black 1px;
+      border-radius: 19px;
+      box-shadow: 0 3px 5px rgba(52, 50, 50, 0.8)
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@use '/src/assets/styles/variables' as *;
+
+.footer {
+  box-sizing: border-box;
+  background-color: $light-background;
+  height: 110px;
+  border-top: 1px solid black;
+  position: static;
+  bottom: 0;
+  width: 100%;
+  color: $secondary-color;
+
+  font-family: $main-font;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 150%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 138px;
+}

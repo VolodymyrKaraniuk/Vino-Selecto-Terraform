@@ -1,0 +1,62 @@
+@use '/src/assets/styles/variables' as *;
+
+.box {
+  font-family: $main-font;
+  width: 454px;
+  height: 503px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-block: 30px 390px;
+
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 130%;
+    letter-spacing: 0px;
+  }
+
+  &__input {
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-block: 16px;
+    width: 454px;
+    height: 56px;
+    border-radius: 12px;
+
+    font-family: $main-font;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  &__text {
+    font-family: $main-font;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  &__google {
+    width: 454px;
+    height: 56px;
+    border-radius: 50px;
+  }
+
+  &__submit {
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-block: 16px;
+    width: 454px;
+    height: 56px;
+    border-radius: 12px;
+
+    font-family: $main-font;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+  }
+}

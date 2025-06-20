@@ -12,3 +12,5 @@ npm install
 ```
 npm run dev
 ```
+
+DEMO: https://DianaKadimbekova.github.io/shop_wine_front/

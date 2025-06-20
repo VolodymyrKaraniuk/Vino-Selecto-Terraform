@@ -69,8 +69,7 @@
     height: 28px;
     background-color: $light-background;
     border-radius: 8px;
-    border-width: 1px;
-    border-color: $main-color;
+    border: solid $main-color 1.5px;
     color: $main-color;
 
     &--icon {

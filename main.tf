@@ -33,13 +33,13 @@ module "backend" {
   nic-backend-id      = module.network-module.nic-backend-id
 }
 
-module "frontend" {
-  source = "./modules/frontend"
-  resource_group_name = var.resource_group_name
-  location = var.location
-  vm_name = var.vm_name
-  vm_size = var.vm_size
-  vm_ssh_key = var.vm_ssh_key
-  nic_frontend = module.network-module.nic-frontend
-}
+# module "frontend" {
+#   source = "./modules/frontend"
+#   resource_group_name = var.resource_group_name
+#   location = var.location
+#   vm_name = var.vm_name
+#   vm_size = var.vm_size
+#   vm_ssh_key = var.vm_ssh_key
+#   nic_frontend = module.network-module.nic-frontend
+# }
 
